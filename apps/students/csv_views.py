@@ -540,6 +540,7 @@ def download_fee_csv_template(request):
         'SCH2023001', 'Tuition Fee', 'First Term', '50000.00', '2023-10-15'
     ])
     
+
     return response
 
 @api_view(['GET'])
@@ -574,3 +575,4 @@ def check_import_status(request, task_id):
         }
     
     return Response(response)
+

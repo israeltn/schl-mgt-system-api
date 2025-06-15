@@ -17,7 +17,9 @@ from .views import (
 # Import CSV views
 from .csv_views import (
     import_students_csv, export_students_csv,
+
     download_student_csv_template, check_import_status
+
 )
 
 urlpatterns = [
@@ -31,7 +33,9 @@ urlpatterns = [
     path('import/csv/', import_students_csv, name='import_students_csv'),
     path('export/csv/', export_students_csv, name='export_students_csv'),
     path('template/csv/', download_student_csv_template, name='student_csv_template'),
+
     path('import/status/<str:task_id>/', check_import_status, name='import_status'),
+
     
     # Enrollments
     path('enrollments/', EnrollmentListView.as_view(), name='enrollment_list'),

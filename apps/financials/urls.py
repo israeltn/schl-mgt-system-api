@@ -25,7 +25,9 @@ from .views import (
 # Import CSV views for fees
 from apps.students.csv_views import (
     import_fees_csv, export_fees_csv,
+
     download_fee_csv_template, check_import_status
+
 )
 
 urlpatterns = [
@@ -41,7 +43,9 @@ urlpatterns = [
     path('fees/import/csv/', import_fees_csv, name='import_fees_csv'),
     path('fees/export/csv/', export_fees_csv, name='export_fees_csv'),
     path('fees/template/csv/', download_fee_csv_template, name='fee_csv_template'),
+
     path('fees/import/status/<str:task_id>/', check_import_status, name='fee_import_status'),
+
     
     # Payment Processing
     path('payments/bulk/', process_bulk_payment, name='bulk_payment'),
