@@ -22,6 +22,12 @@ from .views import (
     DiscountSchemeListView, StudentDiscountListView
 )
 
+# Import CSV views for fees
+from apps.students.csv_views import (
+    import_fees_csv, export_fees_csv,
+    download_fee_csv_template
+)
+
 urlpatterns = [
     # Fee Structures
     path('fee-structures/', FeeStructureListView.as_view(), name='fee_structure_list'),
@@ -30,6 +36,11 @@ urlpatterns = [
     # Fee Records
     path('fee-records/', FeeRecordListView.as_view(), name='fee_record_list'),
     path('fee-records/<int:pk>/', FeeRecordDetailView.as_view(), name='fee_record_detail'),
+    
+    # Fee CSV Import/Export
+    path('fees/import/csv/', import_fees_csv, name='import_fees_csv'),
+    path('fees/export/csv/', export_fees_csv, name='export_fees_csv'),
+    path('fees/template/csv/', download_fee_csv_template, name='fee_csv_template'),
     
     # Payment Processing
     path('payments/bulk/', process_bulk_payment, name='bulk_payment'),

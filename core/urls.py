@@ -13,11 +13,11 @@ urlpatterns = [
     
     # API Routes
     path('api/auth/', include('apps.accounts.urls')),
-    # path('api/schools/', include('apps.schools.urls')),
-    # path('api/academics/', include('apps.academics.urls')),
-    # path('api/students/', include('apps.students.urls')),
-    # path('api/results/', include('apps.results.urls')),
-    # path('api/financials/', include('apps.financials.urls')),
+    path('api/schools/', include('apps.schools.urls')),
+    path('api/academics/', include('apps.academics.urls')),
+    path('api/students/', include('apps.students.urls')),
+    path('api/results/', include('apps.results.urls')),
+    path('api/financials/', include('apps.financials.urls')),
 ]
 
 # Serve media files in development

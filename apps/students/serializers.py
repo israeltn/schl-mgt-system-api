@@ -1,11 +1,10 @@
 from rest_framework import serializers
-from apps.academics import models
+from django.db.models import Count, Q
 from apps.accounts.serializers import UserSerializer
 from .models import Student, Enrollment, StudentAttendance
 
 from apps.accounts.models import User
 from django.utils import timezone
-from django.db.models import Count
 
 class StudentSerializer(serializers.ModelSerializer):
     """Serializer for Student model"""
@@ -42,8 +41,6 @@ class StudentCreateSerializer(serializers.ModelSerializer):
         ]
     
     def create(self, validated_data):
-     
-        
         user_data = validated_data.pop('user_data')
         user_data['role'] = 'student'
         
@@ -53,6 +50,45 @@ class StudentCreateSerializer(serializers.ModelSerializer):
         # Create the student profile
         student = Student.objects.create(user=user, **validated_data)
         return student
+
+class StudentCSVImportSerializer(serializers.Serializer):
+    """Serializer for CSV import of students"""
+    first_name = serializers.CharField(max_length=150)
+    last_name = serializers.CharField(max_length=150)
+    email = serializers.EmailField()
+    username = serializers.CharField(max_length=150)
+    password = serializers.CharField(max_length=128, default='defaultpass123')
+    date_of_birth = serializers.DateField()
+    gender = serializers.ChoiceField(choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')])
+    address = serializers.CharField()
+    emergency_contact = serializers.CharField(max_length=15)
+    blood_group = serializers.CharField(max_length=5, required=False, allow_blank=True)
+    medical_conditions = serializers.CharField(required=False, allow_blank=True)
+    guardian_name = serializers.CharField(max_length=100, required=False, allow_blank=True)
+    guardian_relationship = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    guardian_phone = serializers.CharField(max_length=15, required=False, allow_blank=True)
+    guardian_email = serializers.EmailField(required=False, allow_blank=True)
+    admission_date = serializers.DateField()
+    current_class = serializers.CharField(max_length=50, required=False, allow_blank=True)
+
+class StudentCSVExportSerializer(serializers.ModelSerializer):
+    """Serializer for CSV export of students"""
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    email = serializers.CharField(source='user.email')
+    username = serializers.CharField(source='user.username')
+    current_class_name = serializers.CharField(source='current_class.name', allow_null=True)
+    school_name = serializers.CharField(source='user.school.name')
+    
+    class Meta:
+        model = Student
+        fields = [
+            'student_id', 'first_name', 'last_name', 'email', 'username',
+            'date_of_birth', 'gender', 'address', 'emergency_contact',
+            'blood_group', 'medical_conditions', 'guardian_name',
+            'guardian_relationship', 'guardian_phone', 'guardian_email',
+            'admission_date', 'current_class_name', 'school_name', 'is_active'
+        ]
 
 class EnrollmentSerializer(serializers.ModelSerializer):
     """Serializer for Enrollment model"""
@@ -132,8 +168,6 @@ class StudentDashboardSerializer(serializers.ModelSerializer):
     
     def get_attendance_summary(self, obj):
         """Get attendance summary for current month"""
-       
-        
         current_month = timezone.now().month
         current_year = timezone.now().year
         
@@ -142,9 +176,9 @@ class StudentDashboardSerializer(serializers.ModelSerializer):
             date__year=current_year
         ).aggregate(
             total_days=Count('id'),
-            present_days=Count('id', filter=models.Q(status='present')),
-            absent_days=Count('id', filter=models.Q(status='absent')),
-            late_days=Count('id', filter=models.Q(status='late'))
+            present_days=Count('id', filter=Q(status='present')),
+            absent_days=Count('id', filter=Q(status='absent')),
+            late_days=Count('id', filter=Q(status='late'))
         )
         
         return summary
