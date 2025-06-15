@@ -540,4 +540,39 @@ def download_fee_csv_template(request):
         'SCH2023001', 'Tuition Fee', 'First Term', '50000.00', '2023-10-15'
     ])
     
+
     return response
+
+@api_view(['GET'])
+@permission_classes([IsSchoolOwnerOrSuperAdmin])
+def check_import_status(request, task_id):
+    """Check the status of an async import task"""
+    from celery.result import AsyncResult
+    
+    task = AsyncResult(task_id)
+    
+    if task.state == 'PENDING':
+        response = {
+            'state': task.state,
+            'status': 'Task is waiting to be processed'
+        }
+    elif task.state == 'SUCCESS':
+        response = {
+            'state': task.state,
+            'result': task.result
+        }
+    elif task.state == 'FAILURE':
+        response = {
+            'state': task.state,
+            'error': str(task.info)
+        }
+    else:
+        response = {
+            'state': task.state,
+            'current': task.info.get('current', 0),
+            'total': task.info.get('total', 1),
+            'status': task.info.get('status', '')
+        }
+    
+    return Response(response)
+
