@@ -1,0 +1,29 @@
+{{ school.name }}
+{{ school.address }}
+Email: {{ school.contact_email }} | Phone: {{ school.contact_number }}
+
+Fee Payment Reminder
+
+Dear Parent/Guardian,
+
+This is a friendly reminder that there are outstanding fees for your child {{ student.user.get_full_name }} (Student ID: {{ student.student_id }}).
+
+Outstanding Fees:
+{% for fee in fee_records %}
+{{ fee.fee_structure.name }} ({{ fee.term.name|default:"-" }}): Due: ${{ fee.amount_due }}, Paid: ${{ fee.amount_paid }}, Outstanding: ${{ fee.balance }}, Due Date: {{ fee.due_date }}
+{% endfor %}
+
+Total Outstanding: ${{ total_outstanding }}
+
+Please ensure that these fees are paid as soon as possible to avoid any inconvenience. Note that students with outstanding fees may not be able to access their academic results.
+
+Payment can be made at the school's accounts office during working hours or through the online payment portal.
+
+If you have any questions regarding these fees or need to discuss payment arrangements, please contact the school's accounts office.
+
+Thank you for your prompt attention to this matter.
+
+Best regards,
+{{ school.name }} Accounts Office
+
+---

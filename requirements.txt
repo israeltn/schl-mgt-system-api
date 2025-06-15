@@ -1,0 +1,26 @@
+# Core Django
+Django==4.2.7
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+
+# Database
+psycopg2-binary==2.9.9
+
+# Environment
+python-dotenv==1.0.0
+
+# Authentication
+djangorestframework-simplejwt==5.3.0
+
+# Async Tasks
+celery==5.3.4
+redis==5.0.1
+
+# File uploads
+Pillow==10.1.0
+
+# API Documentation
+drf-spectacular==0.26.5
+
+# Utilities
+django-extensions==3.2.3

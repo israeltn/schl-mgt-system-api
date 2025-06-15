@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Result Notification</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
+        .content { padding: 20px; }
+        .result-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .result-table th, .result-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .result-table th { background-color: #f2f2f2; }
+        .footer { background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>{{ school.name }}</h2>
+        <p>{{ school.address }}</p>
+        <p>Email: {{ school.contact_email }} | Phone: {{ school.contact_number }}</p>
+    </div>
+    
+    <div class="content">
+        <h3>Result Notification - {{ term_result.term.name }}</h3>
+        
+        <p>Dear Parent/Guardian,</p>
+        
+        <p>We are pleased to inform you that the {{ term_result.term.name }} results for your child 
+        <strong>{{ student.user.get_full_name }}</strong> (Student ID: {{ student.student_id }}) 
+        are now available.</p>
+        
+        <h4>Result Summary:</h4>
+        <ul>
+            <li><strong>Class:</strong> {{ term_result.class_for_term.name }}</li>
+            <li><strong>Total Subjects:</strong> {{ term_result.total_subjects }}</li>
+            <li><strong>Average Score:</strong> {{ term_result.average_score }}%</li>
+            <li><strong>GPA:</strong> {{ term_result.gpa }}</li>
+            <li><strong>Position:</strong> {{ term_result.position|default:"Not ranked" }}</li>
+        </ul>
+        
+        <h4>Subject-wise Results:</h4>
+        <table class="result-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>1st CA</th>
+                    <th>2nd CA</th>
+                    <th>Exam</th>
+                    <th>Total</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.subject.name }}</td>
+                    <td>{{ result.first_ca|default:"-" }}</td>
+                    <td>{{ result.second_ca|default:"-" }}</td>
+                    <td>{{ result.exam_marks|default:"-" }}</td>
+                    <td>{{ result.total_score }}</td>
+                    <td>{{ result.grade }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if term_result.class_teacher_comment %}
+        <h4>Class Teacher's Comment:</h4>
+        <p><em>{{ term_result.class_teacher_comment }}</em></p>
+        {% endif %}
+        
+        {% if term_result.principal_comment %}
+        <h4>Principal's Comment:</h4>
+        <p><em>{{ term_result.principal_comment }}</em></p>
+        {% endif %}
+        
+        <p>You can log in to the school portal to view and download the complete result sheet.</p>
+        
+        <p>If you have any questions regarding these results, please do not hesitate to contact the school.</p>
+        
+        <p>Best regards,<br>
+        {{ school.name }} Management</p>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated notification from {{ school.name }}. Please do not reply to this email.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{{ school.name }}
+{{ school.address }}
+Email: {{ school.contact_email }} | Phone: {{ school.contact_number }}
+
+Result Notification - {{ term_result.term.name }}
+
+Dear Parent/Guardian,
+
+We are pleased to inform you that the {{ term_result.term.name }} results for your child {{ student.user.get_full_name }} (Student ID: {{ student.student_id }}) are now available.
+
+Result Summary:
+- Class: {{ term_result.class_for_term.name }}
+- Total Subjects: {{ term_result.total_subjects }}
+- Average Score: {{ term_result.average_score }}%
+- GPA: {{ term_result.gpa }}
+- Position: {{ term_result.position|default:"Not ranked" }}
+
+Subject-wise Results:
+{% for result in results %}
+{{ result.subject.name }}: 1st CA: {{ result.first_ca|default:"-" }}, 2nd CA: {{ result.second_ca|default:"-" }}, Exam: {{ result.exam_marks|default:"-" }}, Total: {{ result.total_score }}, Grade: {{ result.grade }}
+{% endfor %}
+
+{% if term_result.class_teacher_comment %}
+Class Teacher's Comment: {{ term_result.class_teacher_comment }}
+{% endif %}
+
+{% if term_result.principal_comment %}
+Principal's Comment: {{ term_result.principal_comment }}
+{% endif %}
+
+You can log in to the school portal to view and download the complete result sheet.
+
+If you have any questions regarding these results, please do not hesitate to contact the school.
+
+Best regards,
+{{ school.name }} Management
+
+---
+This is an automated notification from {{ school.name }}. Please do not reply to this email.
