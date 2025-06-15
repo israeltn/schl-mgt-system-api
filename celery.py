@@ -23,7 +23,7 @@ from celery import shared_task
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
-from .models import TermResult
+from apps.results.models import TermResult
 from apps.schools.models import SMTPSettings
 
 @shared_task
