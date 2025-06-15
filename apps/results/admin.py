@@ -1,6 +1,12 @@
 # apps/results/admin.py
 from django.contrib import admin
 from .models import Result, TermResult, ResultTemplate
+# apps/financials/admin.py
+from django.contrib import admin
+from apps.financials.models import (
+    FeeStructure, FeeRecord, PaymentHistory, Invoice, 
+    InvoiceItem, DiscountScheme, StudentDiscount
+)
 
 @admin.register(Result)
 class ResultAdmin(admin.ModelAdmin):
@@ -9,7 +15,7 @@ class ResultAdmin(admin.ModelAdmin):
         'exam_marks', 'total_score', 'grade', 'teacher'
     ]
     list_filter = [
-        'term', 'subject', 'grade', 'class_for_term__school',
+        'term', 'subject',  'class_for_term__school',
         'created_at'
     ]
     search_fields = [
@@ -39,12 +45,7 @@ class ResultTemplateAdmin(admin.ModelAdmin):
     list_display = ['school', 'show_grades', 'show_positions', 'show_gpa']
     list_filter = ['school']
 
-# apps/financials/admin.py
-from django.contrib import admin
-from .models import (
-    FeeStructure, FeeRecord, PaymentHistory, Invoice, 
-    InvoiceItem, DiscountScheme, StudentDiscount
-)
+
 
 @admin.register(FeeStructure)
 class FeeStructureAdmin(admin.ModelAdmin):

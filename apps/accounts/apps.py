@@ -4,6 +4,7 @@ from django.apps import AppConfig
 class AccountsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'apps.accounts'
+    verbose_name = 'User Accounts Management'
 
 # apps/schools/apps.py
 from django.apps import AppConfig

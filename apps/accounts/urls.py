@@ -8,7 +8,7 @@ from .views import (
 # Import CSV views for teachers
 from apps.students.csv_views import (
     import_teachers_csv, export_teachers_csv,
-    download_teacher_csv_template
+    download_teacher_csv_template, check_import_status
 )
 
 urlpatterns = [
@@ -29,4 +29,5 @@ urlpatterns = [
     path('teachers/import/csv/', import_teachers_csv, name='import_teachers_csv'),
     path('teachers/export/csv/', export_teachers_csv, name='export_teachers_csv'),
     path('teachers/template/csv/', download_teacher_csv_template, name='teacher_csv_template'),
+    path('teachers/import/status/<str:task_id>/', check_import_status, name='teacher_import_status'),
 ]
