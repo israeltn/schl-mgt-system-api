@@ -139,3 +139,199 @@ This final phase connects the backend and frontend, ensures functionality, and p
     * **Frontend**: Deploy the Next.js application (e.g., using Vercel or as a static build served by Nginx).
     * **Database**: Set up a production PostgreSQL database instance.
     * **Final Configuration**: Ensure all environment variables (database URLs, secret keys) are correctly set in the production environment.
+
+    API Endpoints Documentation
+🔐 Authentication & User Management
+POST   /api/auth/login/                    # User login
+POST   /api/auth/token/refresh/            # Refresh JWT token
+GET    /api/auth/profile/                  # Get current user profile
+PUT    /api/auth/profile/                  # Update current user profile
+POST   /api/auth/change-password/          # Change password
+
+# User Management (Admin only)
+GET    /api/auth/users/                    # List all users
+POST   /api/auth/users/create/             # Create new user
+GET    /api/auth/users/{id}/               # Get user details
+PUT    /api/auth/users/{id}/               # Update user
+DELETE /api/auth/users/{id}/               # Delete user
+
+# Teacher CSV Import/Export
+POST   /api/auth/teachers/import/csv/      # Import teachers from CSV
+GET    /api/auth/teachers/export/csv/      # Export teachers to CSV
+GET    /api/auth/teachers/template/csv/    # Download teacher CSV template
+GET    /api/auth/teachers/import/status/{task_id}/  # Check import status
+🏫 Schools Management
+GET    /api/schools/                       # List schools
+POST   /api/schools/                       # Create new school
+GET    /api/schools/{id}/                  # Get school details
+PUT    /api/schools/{id}/                  # Update school
+DELETE /api/schools/{id}/                  # Delete school
+GET    /api/schools/{id}/dashboard/        # Get school dashboard data
+GET    /api/schools/dashboard/             # Get user dashboard (role-based)
+
+# SMTP Settings
+GET    /api/schools/{school_id}/smtp/      # Get SMTP settings
+PUT    /api/schools/{school_id}/smtp/      # Update SMTP settings
+POST   /api/schools/{school_id}/smtp/create/  # Create SMTP settings
+
+# School Groups
+GET    /api/schools/groups/                # List school groups
+POST   /api/schools/groups/                # Create school group
+GET    /api/schools/groups/{id}/           # Get school group details
+PUT    /api/schools/groups/{id}/           # Update school group
+DELETE /api/schools/groups/{id}/           # Delete school group
+📚 Academic Management
+# Academic Sessions
+GET    /api/academics/sessions/            # List academic sessions
+POST   /api/academics/sessions/            # Create academic session
+GET    /api/academics/sessions/{id}/       # Get session details
+PUT    /api/academics/sessions/{id}/       # Update session
+DELETE /api/academics/sessions/{id}/       # Delete session
+
+# Terms
+GET    /api/academics/terms/               # List terms (filter: ?session={id})
+POST   /api/academics/terms/               # Create term
+GET    /api/academics/terms/{id}/          # Get term details
+PUT    /api/academics/terms/{id}/          # Update term
+DELETE /api/academics/terms/{id}/          # Delete term
+
+# Subjects
+GET    /api/academics/subjects/            # List subjects
+POST   /api/academics/subjects/            # Create subject
+GET    /api/academics/subjects/{id}/       # Get subject details
+PUT    /api/academics/subjects/{id}/       # Update subject
+DELETE /api/academics/subjects/{id}/       # Delete subject
+POST   /api/academics/subjects/bulk-create/  # Bulk create subjects
+
+# Classes
+GET    /api/academics/classes/             # List classes (filter: ?session={id})
+POST   /api/academics/classes/             # Create class
+GET    /api/academics/classes/{id}/        # Get class details
+PUT    /api/academics/classes/{id}/        # Update class
+DELETE /api/academics/classes/{id}/        # Delete class
+POST   /api/academics/classes/bulk-create/ # Bulk create classes
+
+# Teacher Assignments
+GET    /api/academics/assignments/         # List teacher assignments
+POST   /api/academics/assignments/         # Create assignment
+GET    /api/academics/assignments/{id}/    # Get assignment details
+PUT    /api/academics/assignments/{id}/    # Update assignment
+DELETE /api/academics/assignments/{id}/    # Delete assignment
+
+# Teacher-specific
+GET    /api/academics/teacher/assignments/ # Get logged-in teacher's assignments
+GET    /api/academics/teacher/classes/     # Get teacher's assigned classes
+👨‍🎓 Student Management
+# Students
+GET    /api/students/                      # List students (filter: ?class={id})
+POST   /api/students/                      # Create student
+GET    /api/students/{id}/                 # Get student details
+PUT    /api/students/{id}/                 # Update student
+DELETE /api/students/{id}/                 # Delete student
+GET    /api/students/profile/              # Get logged-in student's profile
+GET    /api/students/dashboard/            # Get student dashboard
+
+# CSV Import/Export
+POST   /api/students/import/csv/           # Import students from CSV
+GET    /api/students/export/csv/           # Export students to CSV
+GET    /api/students/template/csv/         # Download student CSV template
+GET    /api/students/import/status/{task_id}/  # Check import status
+
+# Enrollments
+GET    /api/students/enrollments/          # List enrollments
+POST   /api/students/enrollments/          # Create enrollment
+GET    /api/students/enrollments/{id}/     # Get enrollment details
+PUT    /api/students/enrollments/{id}/     # Update enrollment
+DELETE /api/students/enrollments/{id}/     # Delete enrollment
+
+# Attendance
+GET    /api/students/attendance/           # List attendance (filters: ?date={date}&student={id}&class={id})
+POST   /api/students/attendance/           # Record attendance
+GET    /api/students/attendance/{id}/      # Get attendance details
+PUT    /api/students/attendance/{id}/      # Update attendance
+DELETE /api/students/attendance/{id}/      # Delete attendance
+POST   /api/students/attendance/bulk/      # Bulk attendance recording
+GET    /api/students/attendance/summary/   # Get attendance summary
+
+# Class-specific
+GET    /api/students/class/{class_id}/     # Get all students in a class
+📊 Results Management
+# Individual Results
+GET    /api/results/                       # List results (filters: ?student={id}&term={id}&subject={id})
+POST   /api/results/                       # Create result
+GET    /api/results/{id}/                  # Get result details
+PUT    /api/results/{id}/                  # Update result
+DELETE /api/results/{id}/                  # Delete result
+
+# Term Results
+GET    /api/results/term-results/          # List term results
+POST   /api/results/term-results/          # Create term result
+GET    /api/results/term-results/{id}/     # Get term result details
+PUT    /api/results/term-results/{id}/     # Update term result
+DELETE /api/results/term-results/{id}/     # Delete term result
+
+# Student-specific
+GET    /api/results/student/my-results/    # Get logged-in student's results
+GET    /api/results/student/term/{term_id}/ # Get student's specific term result
+
+# Teacher-specific
+POST   /api/results/teacher/bulk-input/    # Bulk input results for a class
+
+# Admin Operations
+POST   /api/results/generate/              # Generate term results
+POST   /api/results/publish/               # Publish results
+
+# Analytics
+GET    /api/results/analytics/class-summary/      # Get class result summary
+GET    /api/results/analytics/subject-performance/ # Get subject performance analysis
+
+# Result Template
+GET    /api/results/template/              # Get result template
+PUT    /api/results/template/              # Update result template
+GET    /api/results/template/{school_id}/  # Get school-specific template
+💰 Financial Management
+# Fee Structures
+GET    /api/financials/fee-structures/     # List fee structures
+POST   /api/financials/fee-structures/     # Create fee structure
+GET    /api/financials/fee-structures/{id}/ # Get fee structure details
+PUT    /api/financials/fee-structures/{id}/ # Update fee structure
+DELETE /api/financials/fee-structures/{id}/ # Delete fee structure
+
+# Fee Records
+GET    /api/financials/fee-records/        # List fee records (filters: ?student={id}&term={id}&status={status})
+POST   /api/financials/fee-records/        # Create fee record
+GET    /api/financials/fee-records/{id}/   # Get fee record details
+PUT    /api/financials/fee-records/{id}/   # Update fee record
+DELETE /api/financials/fee-records/{id}/   # Delete fee record
+POST   /api/financials/fee-records/generate/ # Generate fee records for students
+
+# Fee CSV Import/Export
+POST   /api/financials/fees/import/csv/    # Import fees from CSV
+GET    /api/financials/fees/export/csv/    # Export fees to CSV
+GET    /api/financials/fees/template/csv/  # Download fee CSV template
+GET    /api/financials/fees/import/status/{task_id}/ # Check import status
+
+# Payment Processing
+POST   /api/financials/payments/bulk/      # Process bulk payments
+
+# Student-specific
+GET    /api/financials/student/fee-status/ # Get logged-in student's fee status
+
+# Analytics
+GET    /api/financials/analytics/          # Get fee analytics
+
+# Invoices
+GET    /api/financials/invoices/           # List invoices
+POST   /api/financials/invoices/           # Create invoice
+GET    /api/financials/invoices/{id}/      # Get invoice details
+PUT    /api/financials/invoices/{id}/      # Update invoice
+DELETE /api/financials/invoices/{id}/      # Delete invoice
+
+# Discounts
+GET    /api/financials/discount-schemes/   # List discount schemes
+POST   /api/financials/discount-schemes/   # Create discount scheme
+GET    /api/financials/student-discounts/  # List student discounts
+POST   /api/financials/student-discounts/  # Apply discount to student
+📖 API Documentation
+GET    /api/schema/                        # OpenAPI schema
+GET    /api/docs/                          # Swagger UI documentation

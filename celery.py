@@ -3,9 +3,9 @@ import os
 from celery import Celery
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'school_management.settings.development')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings.development')
 
-app = Celery('school_management')
+app = Celery('schl-mgt-system-api')
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
