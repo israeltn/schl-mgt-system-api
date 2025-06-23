@@ -10,8 +10,38 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-CORS_ALLOWED_ORIGINS = [    
-    "http://localhost:3000",
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5175",
+    "http://localhost:5173",
+    "http://localhost:5175"
+]
+
+# Additional CORS settings for better compatibility
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False  # Keep this False for security
+
+# Allow specific headers that might be needed
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# Allow specific methods
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
 
 # SECURITY WARNING: keep the secret key used in production secret!
